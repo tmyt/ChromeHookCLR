@@ -57,6 +57,12 @@ void ChromeHookService::HandleMessage(MessageType type, intptr_t hwnd, intptr_t 
 	case MessageType::Size:
 		client->OnWindowSizeChanged(LOWORD(arg), HIWORD(arg));
 		break;
+	case MessageType::State:
+		client->OnWindowStateChanged((int)arg);
+		break;
+	case MessageType::Closed:
+		client->OnWindowClosed();
+		break;
 	}
 }
 
@@ -77,6 +83,16 @@ void ChromeHookClient::OnWindowMoved(int x, int y)
 void ChromeHookClient::OnWindowSizeChanged(int w, int h)
 {
 	SizeChanged(this, System::Windows::Size(w, h));
+}
+
+void ChromeHookClient::OnWindowStateChanged(int state)
+{
+	StateChanged(this, state);
+}
+
+void ChromeHookClient::OnWindowClosed()
+{
+	WindowClosed(this);
 }
 
 /*

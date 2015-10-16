@@ -7,7 +7,9 @@ namespace ChromeHookCLR
 	enum class MessageType : int
 	{
 		Moved,
-		Size
+		Size,
+		State,
+		Closed
 	};
 
 #ifdef __cplusplus_cli

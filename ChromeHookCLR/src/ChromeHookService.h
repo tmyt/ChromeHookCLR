@@ -52,9 +52,13 @@ namespace ChromeHookCLR
 
 		virtual event ChromeHookCLR::WindowMovedEventHandler^ WindowMoved;
 		virtual event ChromeHookCLR::WindowSizeChangedEventHandler^ SizeChanged;
+		virtual event ChromeHookCLR::WindowStateChangedEventHandler^ StateChanged;
+		virtual event ChromeHookCLR::WindowClosedEventHandler^ WindowClosed;
 
 	internal:
 		void OnWindowMoved(int x, int y);
 		void OnWindowSizeChanged(int w, int h);
+		void OnWindowStateChanged(int state);
+		void OnWindowClosed();
 	};
 }

@@ -10,6 +10,8 @@ HWND g_hMessageWindow = 0;
 
 UINT g_WindowPosChanged;
 UINT g_WindowSizeChanged;
+UINT g_WindowStateChanged;
+UINT g_WindowDestroyed;
 
 void initialize();
 
@@ -36,6 +38,8 @@ void initialize()
 {
 	g_WindowPosChanged = RegisterWindowMessage(WindowPosChangedMessage);
 	g_WindowSizeChanged = RegisterWindowMessage(WindowSizeChangedMessage);
+	g_WindowStateChanged = RegisterWindowMessage(WindowStateChangedMessage);
+	g_WindowDestroyed = RegisterWindowMessage(WindowDestroyedMessage);
 }
 
 HWND getMessageWindow()
@@ -63,6 +67,13 @@ LRESULT CALLBACK CallWndRetProc(int nAction, WPARAM wParam, LPARAM lParam)
 				break;
 			case WM_SIZE:
 				SendNotifyMessage(hwnd, g_WindowSizeChanged, reinterpret_cast<WPARAM>(cwp->hwnd), cwp->lParam);
+				if(cwp->wParam)
+				{
+					SendNotifyMessage(hwnd, g_WindowStateChanged, reinterpret_cast<WPARAM>(cwp->hwnd), cwp->wParam);
+				}
+				break;
+			case WM_CLOSE:
+				SendNotifyMessage(hwnd, g_WindowDestroyed, reinterpret_cast<WPARAM>(cwp->hwnd), 0);
 				break;
 			}
 		}
