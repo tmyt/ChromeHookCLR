@@ -110,6 +110,8 @@ void uninstallHook()
 	UnhookWindowsHookEx(g_hhook);
 	Sleep(10);
 	PostMessage(HWND_BROADCAST, WM_NULL, 0, 0);
+	FreeLibrary(g_hookDll);
+	g_hookDll = nullptr;
 #ifdef _WIN64
 	// stop 32bit helper process
 	auto hwnd = ::FindWindow(_T("ChromeHook.InjectDLL32.Class"), nullptr);
