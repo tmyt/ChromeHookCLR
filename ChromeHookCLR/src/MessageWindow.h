@@ -35,6 +35,7 @@ namespace ChromeHookCLR
 		MessageWindow();
 
 		void createWindow();
+		void close();
 		void setCallback(NativeMessageCallbackType cb);
 		void handleMessage(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
 	};

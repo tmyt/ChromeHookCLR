@@ -60,6 +60,12 @@ void MessageWindow::createWindow()
 	hwnd = CreateWindow(MessageWindowClass, nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, getManagedInstanceHandle(), (LPVOID)this);
 }
 
+void MessageWindow::close()
+{
+	CloseWindow(hwnd);
+	hwnd = nullptr;
+}
+
 void MessageWindow::setCallback(NativeMessageCallbackType cb)
 {
 	callback = cb;

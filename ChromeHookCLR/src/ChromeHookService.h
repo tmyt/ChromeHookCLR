@@ -20,8 +20,6 @@ namespace ChromeHookCLR
 			= gcnew cliext::map<intptr_t, ChromeHookClient^>();
 		static MessageCallbackType^ callbackDelegate
 			= gcnew MessageCallbackType(HandleMessage);
-		static NativeMessageCallbackType callbackPtr
-			= reinterpret_cast<NativeMessageCallbackType>(PtrForDelegate(callbackDelegate));
 
 		// message handler
 		static void HandleMessage(MessageType type, intptr_t hwnd, intptr_t arg);
@@ -32,6 +30,9 @@ namespace ChromeHookCLR
 		virtual ChromeHookCLR::IChromeHook^ Register(System::IntPtr hwnd);
 
 	internal:
+		// native fnptr
+		static NativeMessageCallbackType callbackPtr
+			= reinterpret_cast<NativeMessageCallbackType>(PtrForDelegate(callbackDelegate));
 		// unregister window
 		static void Unregister(HWND hwnd);
 	};
