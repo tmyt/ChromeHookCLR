@@ -1,15 +1,39 @@
 #pragma once
 
 #include <windows.h>
+#include <cliext\map>
+
+#include "Types.h"
+
+#define PtrForDelegate(_delegate) \
+	(System::Runtime::InteropServices::Marshal::GetFunctionPointerForDelegate(_delegate).ToPointer())
 
 namespace ChromeHookCLR
 {
+	ref class ChromeHookClient;
+
 	public ref class ChromeHookService : public ChromeHookCLR::IChromeHookService
 	{
+	private:
+		// native bridges
+		static cliext::map<intptr_t, ChromeHookClient^>^ registeredWindows
+			= gcnew cliext::map<intptr_t, ChromeHookClient^>();
+		static MessageCallbackType^ callbackDelegate
+			= gcnew MessageCallbackType(HandleMessage);
+		static NativeMessageCallbackType callbackPtr
+			= reinterpret_cast<NativeMessageCallbackType>(PtrForDelegate(callbackDelegate));
+
+		// message handler
+		static void HandleMessage(MessageType type, intptr_t hwnd, intptr_t arg);
+
 	public:
 		virtual ~ChromeHookService();
 
 		virtual ChromeHookCLR::IChromeHook^ Register(System::IntPtr hwnd);
+
+	internal:
+		// unregister window
+		static void Unregister(HWND hwnd);
 	};
 
 	public ref class ChromeHookClient : public ChromeHookCLR::IChromeHook

@@ -4,10 +4,7 @@
 #include <windows.h>
 #include <tchar.h>
 
-#define MessageWindowClass (_T("ChromeHookCLR.MessageWindowClass"))
-
-#define WindowPosChangedMessage (_T("ChromeHookCLR.Messages.WindowPosChanged"))
-#define WindowSizeChangedMessage (_T("ChromeHookCLR.Messages.WindowSizeChanged"))
+#include "../../ChromeHookCLR/src/MessageWindow.h"
 
 HWND g_hMessageWindow = 0;
 
@@ -17,8 +14,8 @@ UINT g_WindowSizeChanged;
 void initialize();
 
 BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
+					   DWORD  ul_reason_for_call,
+					   LPVOID lpReserved
 					 )
 {
 	switch (ul_reason_for_call)

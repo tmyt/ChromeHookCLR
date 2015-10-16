@@ -20,6 +20,9 @@
     <ClCompile Include="src\ChromeHookService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\MessageWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Stdafx.h">
@@ -29,6 +32,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ChromeHookService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MessageWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

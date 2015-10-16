@@ -4,8 +4,6 @@
 
 #include <windows.h>
 
-#define WINDOW_CLASS _T("ChromeHookCLR.MessageHandlerClass")
-
 using namespace System;
 using namespace ChromeHookCLR;
 
@@ -17,14 +15,38 @@ unsigned int g_ref = 0;
 
 ChromeHookService::~ChromeHookService()
 {
-
+	if(!g_ref) { /* TODO: Stop hook */ }
 }
 
 IChromeHook^ ChromeHookService::Register(IntPtr hwnd)
 {
-	if(!g_ref) { /* TODO: Start hook */ }
+	if (!g_ref) { /* TODO: Start hook */ }
 	g_ref++;
-	return gcnew ChromeHookClient((HWND)hwnd.ToPointer());
+	ChromeHookClient^ client = gcnew ChromeHookClient((HWND) hwnd.ToPointer());
+	registeredWindows[(intptr_t)hwnd.ToPointer()] = client;
+	return client;
+}
+
+void ChromeHookService::Unregister(HWND hwnd)
+{
+	g_ref--;
+	if (!g_ref) { /* TODO: Stop hook */ }
+	registeredWindows->erase((intptr_t)hwnd);
+}
+
+void ChromeHookService::HandleMessage(MessageType type, intptr_t hwnd, intptr_t arg)
+{
+	ChromeHookClient^ client = registeredWindows[hwnd];
+	if (!client) return;
+	switch (type)
+	{
+	case MessageType::Moved:
+		client->OnWindowMoved(LOWORD(arg), HIWORD(arg));
+		break;
+	case MessageType::Size:
+		client->OnWindowSizeChanged(LOWORD(arg), HIWORD(arg));
+		break;
+	}
 }
 
 /*
@@ -33,7 +55,7 @@ IChromeHook^ ChromeHookService::Register(IntPtr hwnd)
 
 ChromeHookClient::~ChromeHookClient()
 {
-	g_ref--;
+	ChromeHookService::Unregister(handle);
 }
 
 void ChromeHookClient::OnWindowMoved(int x, int y)
