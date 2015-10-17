@@ -94,6 +94,7 @@ void MessageWindow::handleMessage(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
+	auto wnd = (MessageWindow*) GetWindowLongPtr(hwnd, 0);
 	switch (msg)
 	{
 	case WM_CREATE:
@@ -103,7 +104,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 		DestroyWindow(hwnd);
 		break;
 	default:
-		((MessageWindow*) GetWindowLongPtr(hwnd, 0))->handleMessage(hwnd, msg, wp, lp);
+		if(wnd) wnd->handleMessage(hwnd, msg, wp, lp);
 		break;
 	}
 	return DefWindowProc(hwnd, msg, wp, lp);
