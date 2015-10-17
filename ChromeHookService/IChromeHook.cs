@@ -2,7 +2,7 @@
 
 namespace ChromeHookCLR
 {
-    public interface IChromeHook
+    public interface IChromeHook : IDisposable
     {
         IntPtr Handle { get; }
 

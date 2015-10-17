@@ -2,7 +2,7 @@
 
 namespace ChromeHookCLR
 {
-    public interface IChromeHookService
+    public interface IChromeHookService : IDisposable
     {
         IChromeHook Register(IntPtr hwnd);
     }
