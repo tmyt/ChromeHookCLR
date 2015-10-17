@@ -62,7 +62,7 @@ LRESULT CALLBACK CallWndRetProc(int nAction, WPARAM wParam, LPARAM lParam)
 		if (hwnd) {
 			auto cwp = reinterpret_cast<CWPRETSTRUCT*>(lParam);
 			switch (cwp->message) {
-			case WM_WINDOWPOSCHANGED:
+			case WM_MOVE:
 				SendNotifyMessage(hwnd, g_WindowPosChanged, reinterpret_cast<WPARAM>(cwp->hwnd), cwp->lParam);
 				break;
 			case WM_SIZE:
