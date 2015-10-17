@@ -58,6 +58,7 @@ void MessageWindow::registerMessage()
 
 void MessageWindow::createWindow()
 {
+	initialize();
 	hwnd = CreateWindow(MessageWindowClass, nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, getManagedInstanceHandle(), (LPVOID)this);
 }
 
