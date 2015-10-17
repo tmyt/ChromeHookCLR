@@ -92,7 +92,7 @@ void ChromeHookClient::OnWindowStateChanged(int state)
 
 void ChromeHookClient::OnWindowClosed()
 {
-	WindowClosed(this);
+	Closed(this);
 }
 
 /*

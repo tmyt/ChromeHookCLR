@@ -8,5 +8,7 @@ namespace ChromeHookCLR
 
         event WindowMovedEventHandler WindowMoved;
         event WindowSizeChangedEventHandler SizeChanged;
+        event WindowStateChangedEventHandler StateChanged;
+        event WindowClosedEventHandler Closed;
     }
 }
