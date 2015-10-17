@@ -64,7 +64,7 @@ void MessageWindow::createWindow()
 
 void MessageWindow::close()
 {
-	CloseWindow(hwnd);
+	SendMessage(hwnd, WM_CLOSE, 0, 0);
 	hwnd = nullptr;
 }
 
@@ -105,9 +105,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 		break;
 	default:
 		if(wnd) wnd->handleMessage(hwnd, msg, wp, lp);
-		break;
+		return DefWindowProc(hwnd, msg, wp, lp);
 	}
-	return DefWindowProc(hwnd, msg, wp, lp);
+	return 0;
 }
 
 #pragma managed
