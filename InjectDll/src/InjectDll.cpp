@@ -74,6 +74,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
+	case WM_CREATE:
+		installHook();
+		break;
+	case WM_CLOSE:
+		DestroyWindow(hWnd);
+		uninstallHook();
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
