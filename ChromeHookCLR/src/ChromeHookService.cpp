@@ -60,6 +60,9 @@ void ChromeHookService::HandleMessage(MessageType type, intptr_t hwnd, intptr_t 
 	case MessageType::State:
 		client->OnWindowStateChanged((int)arg);
 		break;
+	case MessageType::Activated:
+		client->OnActivated(LOWORD(arg) != 0);
+		break;
 	case MessageType::Closed:
 		client->OnWindowClosed();
 		break;
@@ -88,6 +91,12 @@ void ChromeHookClient::OnWindowSizeChanged(int w, int h)
 void ChromeHookClient::OnWindowStateChanged(int state)
 {
 	StateChanged(this, state);
+}
+
+void ChromeHookClient::OnActivated(bool state)
+{
+	if (state) Activated(this);
+	else Deactivated(this);
 }
 
 void ChromeHookClient::OnWindowClosed()

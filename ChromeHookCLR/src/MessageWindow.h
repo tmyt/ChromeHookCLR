@@ -11,6 +11,7 @@
 #define WindowSizeChangedMessage (_T("ChromeHookCLR.Messages.WindowSizeChanged"))
 #define WindowStateChangedMessage (_T("ChromeHookCLR.Messages.WindowStateChanged"))
 #define WindowDestroyedMessage (_T("ChromeHookCLR.Messages.WindowDestroyed"))
+#define WindowActivatedMessage (_T("ChromeHookCLR.Messages.WindowActivated"))
 
 namespace ChromeHookCLR
 {
@@ -24,6 +25,7 @@ namespace ChromeHookCLR
 		UINT windowSizeChanged;
 		UINT windowStateChanged;
 		UINT windowDestroyed;
+		UINT windowActivated;
 
 		// my window handle
 		HWND hwnd;

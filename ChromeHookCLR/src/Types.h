@@ -9,6 +9,7 @@ namespace ChromeHookCLR
 		Moved,
 		Size,
 		State,
+		Activated,
 		Closed
 	};
 

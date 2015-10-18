@@ -54,6 +54,7 @@ void MessageWindow::registerMessage()
 	windowSizeChanged = RegisterWindowMessage(WindowSizeChangedMessage);
 	windowStateChanged = RegisterWindowMessage(WindowStateChangedMessage);
 	windowDestroyed = RegisterWindowMessage(WindowDestroyedMessage);
+	windowActivated = RegisterWindowMessage(WindowActivatedMessage);
 }
 
 void MessageWindow::createWindow()
@@ -89,6 +90,9 @@ void MessageWindow::handleMessage(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	}else if(msg == windowDestroyed)
 	{
 		callback(MessageType::Closed, wp, lp);
+	}else if(msg == windowActivated)
+	{
+		callback(MessageType::Activated, lp, wp);
 	}
 }
 
