@@ -52,7 +52,7 @@ void ChromeHookService::HandleMessage(MessageType type, intptr_t hwnd, intptr_t 
 	switch (type)
 	{
 	case MessageType::Moved:
-		client->OnWindowMoved(LOWORD(arg), HIWORD(arg));
+		client->OnWindowMoved((short)LOWORD(arg), (short)HIWORD(arg));
 		break;
 	case MessageType::Size:
 		client->OnWindowSizeChanged(LOWORD(arg), HIWORD(arg));
