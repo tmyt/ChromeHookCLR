@@ -16,10 +16,10 @@ UINT g_WindowActivated;
 
 void initialize();
 
-BOOL APIENTRY DllMain( HMODULE hModule,
-					   DWORD  ul_reason_for_call,
-					   LPVOID lpReserved
-					 )
+BOOL APIENTRY DllMain(HMODULE hModule,
+	DWORD  ul_reason_for_call,
+	LPVOID lpReserved
+	)
 {
 	switch (ul_reason_for_call)
 	{
@@ -64,11 +64,19 @@ LRESULT CALLBACK CallWndRetProc(int nAction, WPARAM wParam, LPARAM lParam)
 		if (hwnd) {
 			auto cwp = reinterpret_cast<CWPRETSTRUCT*>(lParam);
 			switch (cwp->message) {
-			case WM_MOVE:
-				SendNotifyMessage(hwnd, g_WindowPosChanged, reinterpret_cast<WPARAM>(cwp->hwnd), cwp->lParam);
+			case WM_WINDOWPOSCHANGED: {
+				auto pwp = reinterpret_cast<WINDOWPOS*>(cwp->lParam);
+				if (!(pwp->flags & SWP_NOMOVE))
+				{
+					SendNotifyMessage(hwnd, g_WindowPosChanged, reinterpret_cast<WPARAM>(cwp->hwnd), MAKELONG(pwp->x, pwp->y));
+				}
+				if (!(pwp->flags & SWP_NOSIZE))
+				{
+					SendNotifyMessage(hwnd, g_WindowSizeChanged, reinterpret_cast<WPARAM>(cwp->hwnd), MAKELONG(pwp->cx, pwp->cy));
+				}
 				break;
+			}
 			case WM_SIZE:
-				SendNotifyMessage(hwnd, g_WindowSizeChanged, reinterpret_cast<WPARAM>(cwp->hwnd), cwp->lParam);
 				SendNotifyMessage(hwnd, g_WindowStateChanged, reinterpret_cast<WPARAM>(cwp->hwnd), cwp->wParam);
 				break;
 			case WM_ACTIVATE:
