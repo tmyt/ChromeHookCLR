@@ -41,9 +41,10 @@ namespace ChromeHookCLR
 	{
 	private:
 		HWND handle;
+		int prevWindowState;
 
 	public:
-		ChromeHookClient(HWND hwnd) : handle(hwnd) { }
+		ChromeHookClient(HWND hwnd) : handle(hwnd), prevWindowState(0) { }
 		virtual ~ChromeHookClient();
 
 		virtual property System::IntPtr Handle {

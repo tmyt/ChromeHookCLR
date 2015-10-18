@@ -90,6 +90,8 @@ void ChromeHookClient::OnWindowSizeChanged(int w, int h)
 
 void ChromeHookClient::OnWindowStateChanged(int state)
 {
+	if (prevWindowState == state) return;
+	prevWindowState = state;
 	StateChanged(this, state);
 }
 

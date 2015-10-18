@@ -69,10 +69,7 @@ LRESULT CALLBACK CallWndRetProc(int nAction, WPARAM wParam, LPARAM lParam)
 				break;
 			case WM_SIZE:
 				SendNotifyMessage(hwnd, g_WindowSizeChanged, reinterpret_cast<WPARAM>(cwp->hwnd), cwp->lParam);
-				if(cwp->wParam)
-				{
-					SendNotifyMessage(hwnd, g_WindowStateChanged, reinterpret_cast<WPARAM>(cwp->hwnd), cwp->wParam);
-				}
+				SendNotifyMessage(hwnd, g_WindowStateChanged, reinterpret_cast<WPARAM>(cwp->hwnd), cwp->wParam);
 				break;
 			case WM_ACTIVATE:
 				SendNotifyMessage(hwnd, g_WindowActivated, cwp->wParam, cwp->lParam);
