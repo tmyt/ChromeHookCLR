@@ -25,8 +25,6 @@ namespace ChromeHookCLR
 		static void HandleMessage(MessageType type, intptr_t hwnd, intptr_t arg);
 
 	public:
-		virtual ~ChromeHookService();
-
 		virtual ChromeHookCLR::IChromeHook^ Register(System::IntPtr hwnd);
 
 	internal:

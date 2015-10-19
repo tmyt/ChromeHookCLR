@@ -25,10 +25,6 @@ void uninstallHook();
  * ChromeHookService
  */
 
-ChromeHookService::~ChromeHookService()
-{
-}
-
 IChromeHook^ ChromeHookService::Register(IntPtr hwnd)
 {
 	if (!g_ref) { installHook(); }
