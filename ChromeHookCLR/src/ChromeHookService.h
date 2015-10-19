@@ -21,6 +21,10 @@ namespace ChromeHookCLR
 		static MessageCallbackType^ callbackDelegate
 			= gcnew MessageCallbackType(HandleMessage);
 
+		// lock obj
+		static System::Object^ lock
+			= gcnew System::Object();
+
 		// message handler
 		static void HandleMessage(MessageType type, intptr_t hwnd, intptr_t arg);
 

@@ -4,6 +4,7 @@
 #include "MessageWindow.h"
 
 #include <windows.h>
+#include <msclr/lock.h>
 
 #pragma comment(lib, "shell32.lib")
 
@@ -27,6 +28,7 @@ void uninstallHook();
 
 IChromeHook^ ChromeHookService::Register(IntPtr hwnd)
 {
+	msclr::lock l(lock);
 	if (!g_ref) { installHook(); }
 	g_ref++;
 	ChromeHookClient^ client = gcnew ChromeHookClient((HWND) hwnd.ToPointer());
@@ -36,6 +38,7 @@ IChromeHook^ ChromeHookService::Register(IntPtr hwnd)
 
 void ChromeHookService::Unregister(HWND hwnd)
 {
+	msclr::lock l(lock);
 	g_ref--;
 	if (!g_ref) { uninstallHook(); }
 	registeredWindows->erase((intptr_t) hwnd);
@@ -43,6 +46,7 @@ void ChromeHookService::Unregister(HWND hwnd)
 
 void ChromeHookService::HandleMessage(MessageType type, intptr_t hwnd, intptr_t arg)
 {
+	msclr::lock l(lock);
 	ChromeHookClient^ client = registeredWindows[hwnd];
 	if (!client) return;
 	switch (type)
