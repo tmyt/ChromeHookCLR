@@ -13,6 +13,8 @@
 #define WindowDestroyedMessage (_T("ChromeHookCLR.Messages.WindowDestroyed"))
 #define WindowActivatedMessage (_T("ChromeHookCLR.Messages.WindowActivated"))
 
+#define WindowNcLButtonDown (_T("ChromeHookCLR.Message.WindowNcLButtonDown"))
+
 namespace ChromeHookCLR
 {
 	class MessageWindow

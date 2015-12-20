@@ -15,9 +15,11 @@ unsigned int g_ref = 0;
 MessageWindow g_messageWindow;
 
 // hook vars
-HHOOK g_hhook;
 HMODULE g_hookDll;
-HOOKPROC g_hookProc;
+HHOOK g_hcwpHook;
+HHOOK g_hgmHook;
+HOOKPROC g_cwpHookProc;
+HOOKPROC g_gmHookProc;
 
 void installHook();
 void uninstallHook();
@@ -25,6 +27,11 @@ void uninstallHook();
 /*
  * ChromeHookService
  */
+
+ChromeHookService::ChromeHookService()
+{
+	pseudoNcLButtonDown = RegisterWindowMessage(WindowNcLButtonDown);
+}
 
 IChromeHook^ ChromeHookService::Register(IntPtr hwnd)
 {
@@ -121,8 +128,10 @@ void installHook()
 #else
 	g_hookDll = LoadLibrary(_T("ChromeHook32.dll"));
 #endif
-	g_hookProc = (HOOKPROC) GetProcAddress(g_hookDll, "CallWndRetProc");
-	g_hhook = SetWindowsHookEx(WH_CALLWNDPROCRET, g_hookProc, g_hookDll, 0);
+	g_cwpHookProc = (HOOKPROC)GetProcAddress(g_hookDll, "CallWndRetProc");
+	g_gmHookProc = (HOOKPROC)GetProcAddress(g_hookDll, "GetMsgProc");
+	g_hcwpHook = SetWindowsHookEx(WH_CALLWNDPROCRET, g_cwpHookProc, g_hookDll, 0);
+	g_hgmHook = SetWindowsHookEx(WH_CALLWNDPROCRET, g_gmHookProc, g_hookDll, 0);
 	Sleep(10); // wait 10ms
 	PostMessage(HWND_BROADCAST, WM_NULL, 0, 0);
 #ifdef _WIN64
@@ -134,7 +143,8 @@ void installHook()
 void uninstallHook()
 {
 	// unhook installed hook
-	UnhookWindowsHookEx(g_hhook);
+	UnhookWindowsHookEx(g_hcwpHook);
+	UnhookWindowsHookEx(g_hgmHook);
 	Sleep(10);
 	PostMessage(HWND_BROADCAST, WM_NULL, 0, 0);
 	FreeLibrary(g_hookDll);

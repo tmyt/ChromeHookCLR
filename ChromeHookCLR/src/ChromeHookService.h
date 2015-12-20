@@ -28,7 +28,15 @@ namespace ChromeHookCLR
 		// message handler
 		static void HandleMessage(MessageType type, intptr_t hwnd, intptr_t arg);
 
+		// PseudoNcHitTestMessage
+		unsigned int pseudoNcLButtonDown;
+
 	public:
+		ChromeHookService();
+
+		property unsigned int PseudoNcLButtonDownMessage {
+			virtual unsigned int get() { return pseudoNcLButtonDown; }
+		}
 		virtual ChromeHookCLR::IChromeHook^ Register(System::IntPtr hwnd);
 
 	internal:

@@ -13,6 +13,7 @@ UINT g_WindowSizeChanged;
 UINT g_WindowStateChanged;
 UINT g_WindowDestroyed;
 UINT g_WindowActivated;
+UINT g_WindowNcLButtonDown;
 
 void initialize();
 
@@ -42,6 +43,7 @@ void initialize()
 	g_WindowStateChanged = RegisterWindowMessage(WindowStateChangedMessage);
 	g_WindowDestroyed = RegisterWindowMessage(WindowDestroyedMessage);
 	g_WindowActivated = RegisterWindowMessage(WindowActivatedMessage);
+	g_WindowNcLButtonDown = RegisterWindowMessage(WindowNcLButtonDown);
 }
 
 HWND getMessageWindow()
@@ -86,6 +88,18 @@ LRESULT CALLBACK CallWndRetProc(int nAction, WPARAM wParam, LPARAM lParam)
 				SendNotifyMessage(hwnd, g_WindowDestroyed, reinterpret_cast<WPARAM>(cwp->hwnd), 0);
 				break;
 			}
+		}
+	}
+	return CallNextHookEx(nullptr, nAction, wParam, lParam);
+}
+
+LRESULT CALLBACK GetMsgProc(int nAction, WPARAM wParam, LPARAM lParam)
+{
+	if (nAction >= 0)
+	{
+		auto msg = reinterpret_cast<MSG*>(lParam);
+		if (wParam == PM_REMOVE && msg->message == g_WindowNcLButtonDown) {
+			PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, msg->wParam, msg->lParam);
 		}
 	}
 	return CallNextHookEx(nullptr, nAction, wParam, lParam);
